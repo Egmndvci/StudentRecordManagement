@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="tr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <title>Öğretmen Yönetimi</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+  <h1 th:text="${teacher.id == null ? 'Yeni Öğretmen Kaydı' : 'Öğretmeni Güncelle'}">Form Başlığı</h1>
+  <hr>
+
+  <form th:action="@{/teachers/save}" th:object="${teacher}" method="POST">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="mb-3">
+      <label for="firstName" class="form-label">Öğretmen Adı:</label>
+      <input type="text" th:field="*{firstName}" class="form-control" id="firstName" placeholder="Ad giriniz" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Öğretmen Soyadı:</label>
+      <input type="text" th:field="*{lastName}" class="form-control" id="lastName" placeholder="Soyad giriniz" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">E-posta:</label>
+      <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="E-posta giriniz" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <a th:href="@{/teachers}" class="btn btn-secondary">İptal</a>
+
+  </form>
+</div>
+
+</body>
+</html>
