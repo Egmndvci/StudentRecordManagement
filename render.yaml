@@ -1,0 +1,37 @@
+services:
+  # 1. Servis: PostgreSQL Veritabanı
+  - type: psql
+    name: student-db
+    region: frankfurt
+    plan: free
+
+  # 2. Servis: Bizim Spring Boot Web Sitemiz
+  - type: web
+    name: student-record-app
+    region: frankfurt
+    plan: free
+    env: java  # EN ÖNEMLİ SATIR: Çalışma zamanını 'Java' olarak zorluyoruz
+    build:
+      command: "mvn clean package"
+    start:
+      command: "java -jar target/StudentRecordManagement-0.0.1-SNAPSHOT.jar"
+    envVars:
+      - key: spring.jpa.hibernate.ddl-auto
+        value: update
+
+      # Veritabanı bilgilerini otomatik olarak bağla (Kopyala/Yapıştır gerekmez)
+      - key: spring.datasource.url
+        fromService:
+          type: psql
+          name: student-db # Yukarıdaki 'psql' servisinin adıyla AYNI OLMALI
+          property: internalDatabaseUrl
+      - key: spring.datasource.username
+        fromService:
+          type: psql
+          name: student-db
+          property: user
+      - key: spring.datasource.password
+        fromService:
+          type: psql
+          name: student-db
+          property: password
