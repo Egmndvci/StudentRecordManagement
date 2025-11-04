@@ -9,10 +9,8 @@ services:
     region: frankfurt
     plan: free
     env: java
-    build:
-      command: "mvn clean package"
-    start:
-      command: "java -jar target/StudentRecordManagement-0.0.1-SNAPSHOT.jar"
+    buildCommand: "mvn clean package"
+    startCommand: "java -jar target/StudentRecordManagement-0.0.1-SNAPSHOT.jar"
     envVars:
       - key: spring.jpa.hibernate.ddl-auto
         value: update
