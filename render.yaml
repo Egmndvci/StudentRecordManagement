@@ -22,20 +22,19 @@ services:
           property: host
       - key: DB_PORT
         fromDatabase:
-Screen-record.dev:
-  name: student-db
-  property: port
-  - key: DB_NAME
-    fromDatabase:
-      name: student-db
-      property: database
-  - key: spring.datasource.url
-    value: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}"
-  - key: spring.datasource.username
-    fromDatabase:
-      name: student-db
-      property: user
-  - key: spring.datasource.password
-    fromDatabase:
-      name: student-db
-      property: password
+          name: student-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: student-db
+          property: database
+      - key: spring.datasource.url
+        value: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}"
+      - key: spring.datasource.username
+        fromDatabase:
+          name: student-db
+          property: user
+      - key: spring.datasource.password
+        fromDatabase:
+          name: student-db
+          property: password
