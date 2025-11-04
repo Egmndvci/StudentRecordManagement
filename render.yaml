@@ -1,16 +1,14 @@
-# 1. BÖLÜM: VERİTABANI TANIMI
 databases:
   - name: student-db
     region: frankfurt
     plan: free
 
-# 2. BÖLÜM: WEB SERVİSİ (SİTE) TANIMI
 services:
   - type: web
     name: student-record-app
     region: frankfurt
     plan: free
-    env: java  # Çalışma zamanını Java olarak zorla
+    env: java
     build:
       command: "mvn clean package"
     start:
@@ -18,32 +16,26 @@ services:
     envVars:
       - key: spring.jpa.hibernate.ddl-auto
         value: update
-
-      # --- Veritabanı Bağlantısını Otomatik Yapılandırma ---
-      # Gerekli parçaları (host, port, db_adı) 'databases' bloğundan al
       - key: DB_HOST
         fromDatabase:
           name: student-db
           property: host
       - key: DB_PORT
         fromDatabase:
-          name: student-db
-          property: port
-      - key: DB_NAME
-        fromDatabase:
-          name: student-db
-          property: database
-
-      # Spring Boot'un beklediği JDBC URL'ini bu parçalarla oluştur
-      - key: spring.datasource.url
-        value: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}"
-
-      # Kullanıcı adı ve şifreyi 'databases' bloğundan al
-      - key: spring.datasource.username
-        fromDatabase:
-          name: student-db
-          property: user
-      - key: spring.datasource.password
-        fromDatabase:
-          name: student-db
-          property: password
+Screen-record.dev:
+  name: student-db
+  property: port
+  - key: DB_NAME
+    fromDatabase:
+      name: student-db
+      property: database
+  - key: spring.datasource.url
+    value: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}"
+  - key: spring.datasource.username
+    fromDatabase:
+      name: student-db
+      property: user
+  - key: spring.datasource.password
+    fromDatabase:
+      name: student-db
+      property: password
