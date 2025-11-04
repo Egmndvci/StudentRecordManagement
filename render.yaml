@@ -1,16 +1,14 @@
 services:
-  # 1. Servis: PostgreSQL Veritabanı
   - type: psql
     name: student-db
     region: frankfurt
     plan: free
 
-  # 2. Servis: Bizim Spring Boot Web Sitemiz
   - type: web
     name: student-record-app
     region: frankfurt
     plan: free
-    env: java  # EN ÖNEMLİ SATIR: Çalışma zamanını 'Java' olarak zorluyoruz
+    env: java
     build:
       command: "mvn clean package"
     start:
@@ -18,12 +16,10 @@ services:
     envVars:
       - key: spring.jpa.hibernate.ddl-auto
         value: update
-
-      # Veritabanı bilgilerini otomatik olarak bağla (Kopyala/Yapıştır gerekmez)
       - key: spring.datasource.url
         fromService:
           type: psql
-          name: student-db # Yukarıdaki 'psql' servisinin adıyla AYNI OLMALI
+          name: student-db
           property: internalDatabaseUrl
       - key: spring.datasource.username
         fromService:
